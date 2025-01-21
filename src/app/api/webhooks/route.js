@@ -65,7 +65,7 @@ export async function POST(req) {
       );
       if (user && eventType === "user.created") {
         try {
-          await clerkClient.Users.updateUserMetadata(id, {
+          await clerkClient.user.updateUserMetadata(id, {
             publicMetadata: {
               userMogoId: user._id,
             },
