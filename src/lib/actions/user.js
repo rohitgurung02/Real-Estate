@@ -1,4 +1,4 @@
-import User from '../models/User.model'
+import User from "../models/User.model";
 import { connect } from "../mongoDb/mongoose";
 
 export const createOrUpdateUser = async (
@@ -9,8 +9,11 @@ export const createOrUpdateUser = async (
   email_addresses
 ) => {
   try {
+    // Connect to the database
     await connect();
-    const user = await user.findOneAndUpdate(
+
+    // Update or insert the user
+    const user = await User.findOneAndUpdate(
       { clerkId: id },
       {
         $set: {
@@ -20,19 +23,34 @@ export const createOrUpdateUser = async (
           email: email_addresses[0].email_address,
         },
       },
-      // If all fields are exist then true and doesn't exist then add it
       { upsert: true, new: true }
     );
+
+    console.log("User created or updated:", user);
+    return user; // Return the updated or created user
   } catch (error) {
-    console.log("Error: Could not create or update user:", error);
+    console.error("Error: Could not create or update user:", error.message);
+    throw error;
   }
 };
 
-export const deleteUser = async () => {
+export const deleteUser = async (id) => {
   try {
+    // Connect to the database
     await connect();
-    await User.findOneAndDelete({ clerkId: id });
+
+    // Delete the user
+    const deletedUser = await User.findOneAndDelete({ clerkId: id });
+
+    if (deletedUser) {
+      console.log("User deleted:", deletedUser);
+    } else {
+      console.log("User not found for deletion");
+    }
+
+    return deletedUser;
   } catch (error) {
-    console.log("Error: Could not delete user:", error);
+    console.error("Error: Could not delete user:", error.message);
+    throw error;
   }
 };

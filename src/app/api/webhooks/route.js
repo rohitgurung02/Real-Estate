@@ -32,7 +32,7 @@ export async function POST(req) {
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  let evt;
+  let evt
 
   // Verify payload with headers
   try {

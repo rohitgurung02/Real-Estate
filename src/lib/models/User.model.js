@@ -25,9 +25,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }// we can store more than two values
+  { timestamps: true }
 );
 
-const User = mongoose.models.User || mongoose.model('User',userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;
